@@ -15,7 +15,12 @@ function calculateGamePoints({teamPoints, opponentPoints, opponentStrength, deca
     return calculateWinLossFactor({teamPoints, opponentPoints}) * opponentStrength * decayFactor * 100;
 }
 
+function calculateWeightedGamePoints({gameCountInOldest6Months, gameCountInNewest6Months}) {
+    return gameCountInOldest6Months * 0.5 + gameCountInNewest6Months
+}
+
 module.exports = {
     calculateWinLossFactor,
-    calculateGamePoints
+    calculateGamePoints,
+    calculateWeightedGamePoints
 };

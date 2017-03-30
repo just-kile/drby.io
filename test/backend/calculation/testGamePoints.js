@@ -81,8 +81,37 @@ describe("Point Calculation", function () {
             })).toEqual(25);
         });
 
-
     });
 
+    describe("Weighted Game Count", function () {
+
+        it("should return 0 when no games have been played", function () {
+            expect(gamePoints.calculateWeightedGamePoints({
+                gameCountInOldest6Months: 0,
+                gameCountInNewest6Months: 0
+            })).toEqual(0)
+        });
+
+        it("should return 3 if only 3 games in newest 6 month have been played", function () {
+            expect(gamePoints.calculateWeightedGamePoints({
+                gameCountInOldest6Months: 0,
+                gameCountInNewest6Months: 3
+            })).toEqual(3)
+        });
+
+        it("should return 1.5 if only 3 games in oldest 6 month have been played", function () {
+            expect(gamePoints.calculateWeightedGamePoints({
+                gameCountInOldest6Months: 3,
+                gameCountInNewest6Months: 0
+            })).toEqual(1.5)
+        });
+
+        it("should return 4.5 if only 3 games in each oldest and newest 6 month have been played", function () {
+            expect(gamePoints.calculateWeightedGamePoints({
+                gameCountInOldest6Months: 3,
+                gameCountInNewest6Months: 3
+            })).toEqual(4.5)
+        });
+    })
 
 });
