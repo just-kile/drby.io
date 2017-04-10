@@ -4,7 +4,24 @@ Hi. drby.io will help you to get an up-to-date roller derby ranking.
  
 *Note: Work in progress =)*
 
-## Backend
+## Grabbers
+
+drby.io won't have any data on it's own but *just* collect existing data and calculate something awesome out of it. The data is aggregated from wftda.com (official rankings) and flattrackstats.com (game results).
+
+You find the grabbers in 'grabbers' directory.
+
+### Setup
+
+* Install Python 3 & pip.
+* `pip install pymongo`
+* Install a mongo DB (locally).
+
+### Run the grabbers
+
+* `python fts_grabber.py` to import game results from flattrackstats.com to your mongo db.
+* `python wftda_grabber.py` to import official rankings to your mongo db.
+
+## Backend (drby.io)
 
 Backend will run with nodejs.
 
@@ -16,7 +33,7 @@ Backend will run with nodejs.
 
 * `npm test`
 
-## DrbyNgFrontend
+## Frontend (DrbyNgFrontend)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
