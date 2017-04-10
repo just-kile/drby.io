@@ -1,0 +1,60 @@
+How to calculate the ranking (12-months...)
+===========================================
+
+strength = avg. points / avg. points of median team
+
+a) collect all games for the past 12 months
+b) get the strength for this team for this month
+	-> I need the ranking for this period
+	-> If exists (official WFTDA ranking) => all good, nothing to do
+	-> If it does not exist (unpublished) => Houston, we have a problem!
+		- We need to fully calculate the ranking (start at a)
+		- Seems to be an infinite loop?!?
+
+==> e. g. calculate ranking for 2016-07-31
+
+
+Alternatively: Do not calculate the full ranking but only differences
+=====================================================================
+
+Changes from 1 month => Next month
+
+* Points from last month have to removed
+* Points from month 6 (=> now 7) have a different decay factor
+* Add points for the new games (=month 1)
+	=> For all those, we need to calculate the game points
+	=> If we need an unpublished ranking for any of these games, this won't be 100% accurate
+	=> From the total game point score (can be calculated out of the ranking), add / subtract the point changed
+* Recalculate weighted game points
+	=> Easy
+* With new total score & weighted game points, we have the new ranking!
+
+Easiest calculation 
+===================
+
+* Just add the new games to the total points & recalculate average
+
+
+Ranking Periods
+---------------
+
+Published?
+
+X Jan
+X Feb
+X Mar
+X Apr
+X May
+X Jun
+- Jul
+- Aug
+- Sep
+X Oct
+X Nov
+X Dec
+
+==> Maybe we can calculate (or: better approximate) the points of Jul-Sep games points based of the ranking changes in Nov-Jan (decay factor for the games is changing!)
+
+
+
+

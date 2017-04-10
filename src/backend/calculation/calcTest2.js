@@ -4,7 +4,8 @@
 
 
 const bouts = require('../../../examples/bouts.json');
-const rankings = require('../../../examples/rankings.json');
+const moment = require('moment');
+var rankings = require('../../../examples/rankings.json');
 const gamePoints = require('./gamePoints.js');
 let teamMappings = require('./teamMappings.json');
 
@@ -53,10 +54,46 @@ function findOpponent(teamName, date) {
     return team;
 }
 
+function findForDateRanking(date) {
+    return rankings.find(ranking => {
+        let rankingDate = moment(ranking.date.$date).startOf('day')
+        return rankingDate.isSame(date, 'day')
+    });
+}
+
+function calcRanking(date) {
+    rankings[0].team.forEach(team => {
+
+        let endDate = rankingDate.clone();
+        let beginDate = rankingDate.clone().subtract(12, 'months');
+
+
+        let teamName = team.name;
+        let caluclatedAverage = algorithm.method(team.name, beginDate.toDate(), endDate.toDate());
+    });
+}
+
+
+function calculateMissingRankings(fromDate) {
+    let date = moment(fromDate).endOf('month');
+    let toDate = moment().endOf('month').subtract(1, 'month');
+
+    while(date.isSameOrBefore(toDate)) {
+        let ranking = findForDateRanking(date);
+        if (!ranking) {
+            console.log('I MISS ' + date.format('DD-MM-YYYY'));
+        }
+        date.add(1, 'month');
+    }
+
+}
+
 function calcAverageRankingPoints(teamName, fromDate, toDate) {
     var countNewest = 0;
     var countOldest = 0;
     var totalPoints = 0;
+
+    calculateMissingRankings(fromDate);
 
     findBouts(teamName, fromDate, toDate).forEach(bout => {
 

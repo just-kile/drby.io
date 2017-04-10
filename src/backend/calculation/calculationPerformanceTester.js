@@ -10,16 +10,24 @@
  */
 
 let rankings = require('../../../examples/rankings.json');
+let moment = require('moment');
+
+
 let counts = [20, 50, 100, 150, 200, 250];
 
 // For now: Just calculate the february 2017 ranking.
-let beginDate = new Date(2016, 2, 1);
-let endDate = new Date(2017, 1, 28);
+
+
+let dates = [
+    moment('2017-03-31'),
+    moment('2017-02-28'),
+    moment('2017-01-31'),
+];
 
 let algorithms = [
     {
         name: "First one",
-        method: require('./calcTest.js')
+        method: require('./calcTest2.js')
     }
 ];
 
@@ -33,7 +41,7 @@ function calcStats(absoluteDifferences, relativeDifferences, count) {
         averageRel: 0
     };
 
-    for(let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) {
         result.totalAbs += absoluteDifferences[i];
         result.totalRel += relativeDifferences[i];
     }
@@ -44,33 +52,48 @@ function calcStats(absoluteDifferences, relativeDifferences, count) {
     return result;
 }
 
+function findRanking(date) {
+    return rankings.find(ranking => {
+        let rankingDate = moment(ranking.date.$date).startOf('day')
+        return rankingDate.isSame(date, 'day')
+    });
+}
+
 algorithms.forEach(algorithm => {
 
-    var absoluteDifferences = [];
-    var relativeDifferences = [];
-
-    rankings[0].team.forEach(team => {
-
-        let teamName = team.name;
-        let caluclatedAverage = algorithm.method(team.name, new Date(2016, 2, 1), new Date(2017, 1, 28));
-        let wftdaAverage = team.score;
-        let absoluteDifference = Math.abs(caluclatedAverage - wftdaAverage);
-        let relativeDifference = absoluteDifference / wftdaAverage * 100;
-
-        absoluteDifferences.push(absoluteDifference);
-        relativeDifferences.push(relativeDifference);
-
-        // console.log(teamName + ' - ' + caluclatedAverage + ' (WFTDA: ' + wftdaAverage + ', abs. diff: ' + absoluteDifference + ', rel. diff: ' + relativeDifference + '%)' )
-
-    });
 
 
+    dates.forEach(rankingDate => {
 
-    console.log("Analysed algorithm '" + algorithm.name + "'");
-    counts.forEach(count => {
-        let stats = calcStats(absoluteDifferences, relativeDifferences, count);
-        console.log("   > First " + count + " teams: Avg. relative difference: " + stats.averageRel);
-    });
+        var absoluteDifferences = [];
+        var relativeDifferences = [];
+
+        findRanking(rankingDate).team.forEach(team => {
+
+            let endDate = rankingDate.clone();
+            let beginDate = rankingDate.clone().subtract(12, 'months');
+
+
+            let teamName = team.name;
+            let caluclatedAverage = algorithm.method(team.name, beginDate.toDate(), endDate.toDate());
+            let wftdaAverage = team.score;
+            let absoluteDifference = Math.abs(caluclatedAverage - wftdaAverage);
+            let relativeDifference = absoluteDifference / wftdaAverage * 100;
+
+            absoluteDifferences.push(absoluteDifference);
+            relativeDifferences.push(relativeDifference);
+
+        });
+
+        console.log("Analysed algorithm '" + algorithm.name + "'");
+        console.log("   > Ranking " + rankingDate.format('DD-MM-YYYY'));
+        counts.forEach(count => {
+            let stats = calcStats(absoluteDifferences, relativeDifferences, count);
+            console.log("   > First " + count + " teams: Avg. relative difference: " + stats.averageRel);
+        });
+    })
+
+
 
 
 

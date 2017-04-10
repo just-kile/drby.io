@@ -12,6 +12,7 @@ from pymongo import MongoClient
 
 client = MongoClient("mongodb://localhost:27017")
 db = client['drby']
+month_count = 30
 
 def retrieve_page_tree(url, xpath):
 	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -77,7 +78,7 @@ def previous_ranking(current_date):
 base_url = 'https://wftda.com/rankings-'
 ranking_date = date.today()
 
-for i in range(15):
+for i in range(month_count):
 	ranking_date = previous_ranking(ranking_date)
 	import_rankings(ranking_date)
 

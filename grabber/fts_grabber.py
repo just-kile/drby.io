@@ -15,7 +15,8 @@ client = MongoClient("mongodb://localhost:27017")
 db = client['drby']
 
 league_name_cache = dict()
-min_date = date.today() - timedelta(days=30*15)
+month_count = 30
+min_date = date.today() - timedelta(days=30*month_count)
 
 def retrieve_page_tree(url, xpath):
 	# print url
