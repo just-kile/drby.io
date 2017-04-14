@@ -22,7 +22,7 @@ let dates = [
     moment('2017-03-31'),
     // moment('2017-02-28'),
     // moment('2017-01-31'),
-    moment('2016-06-30'),
+    //moment('2016-06-30'),
 ];
 
 let algorithms = [
@@ -33,6 +33,10 @@ let algorithms = [
     {
         name: "Second one",
         method: require('./calcTest2.js')
+    },
+    {
+        name: "Third one",
+        method: require('./calcTest3.js')
     }
 ];
 
@@ -76,7 +80,7 @@ algorithms.forEach(algorithm => {
         findRanking(rankingDate).team.forEach(team => {
 
             let endDate = rankingDate.clone();
-            let beginDate = rankingDate.clone().subtract(12, 'months');
+            let beginDate = rankingDate.clone().subtract(12, 'months').add(1, 'day');
 
 
             let teamName = team.name;

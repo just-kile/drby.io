@@ -2,15 +2,15 @@
  * Created by thomas on 30.03.17.
  */
 
-
+var requireNew = require('require-new');
 const bouts = require('../../../../examples/bouts.json');
-const rankings = require('../../../../examples/rankings.json');
+var rankings = requireNew('../../../../examples/rankings.json');
 const gamePoints = require('./gamePoints.js');
+const rankingCalc = require('./ranking.js');
 const moment = require('moment');
 let teamMappings = require('./teamMappings.json');
 
 const bcrd = "Bear City Roller Derby";
-
 
 
 var count = 0;
@@ -33,6 +33,11 @@ function findRanking(date) {
 function findOpponent(teamName, date) {
     let ranking = findRanking(date);
 
+    if (!ranking) {
+        console.log(teamName)
+        console.log(date)
+    }
+
     var team = ranking.team.find(
         team => {
             return team.name === teamName
@@ -54,7 +59,63 @@ function findOpponent(teamName, date) {
     return team;
 }
 
-function calcAverageRankingPoints(teamName, fromDate, toDate) {
+function calculateMissingRankings(fromDate, toDate) {
+    var rankingDate = moment(toDate).subtract(1, 'month').endOf('month').startOf('day');
+    while (rankingDate.isAfter(fromDate)) {
+
+        let rankingExists = rankings.find(ranking => {
+                return moment(new Date(ranking.date.$date)).startOf('day').toDate().getTime() == rankingDate.toDate().getTime()
+            }) != undefined;
+
+        if (!rankingExists) {
+            calculateRanking(rankingDate);
+        }
+
+        rankingDate = rankingDate.subtract(1, 'month').endOf('month').startOf('day');
+    }
+}
+
+function calculateRanking(rankingDate) {
+
+    console.log('Calculating ranking for ' + rankingDate.toString());
+
+    let endDate = rankingDate.clone();
+    let beginDate = rankingDate.clone().subtract(12, 'months').add(1, 'day');
+    let teams = [];
+
+    rankings[0].team.forEach(team => {
+        let score = internalCalcAverageRankingPoints(team.name, beginDate.toDate(), endDate.toDate());
+        if (score) {
+            teams.push({
+                name: team.name,
+                score: score
+            })
+        }
+    });
+
+    rankingCalc.sortRanking(teams);
+    teams = rankingCalc.calculateStrengthFactors(teams);
+    rankings.push({
+        date: {$date: rankingDate.toString()},
+        team: teams
+    });
+
+    console.log(teams);
+
+    rankings = rankings.sort((a, b) => {
+        let date1 = moment(a.date.$date);
+        let date2 = moment(b.date.$date);
+
+        return date2.toDate().getTime() - date1.toDate().getTime();
+    });
+
+    console.log('!!! DONE')
+
+
+
+}
+
+function internalCalcAverageRankingPoints(teamName, fromDate, toDate) {
     var countNewest = 0;
     var countOldest = 0;
     var totalPoints = 0;
@@ -128,16 +189,21 @@ function calcAverageRankingPoints(teamName, fromDate, toDate) {
 
     // console.log("total games: " + (countNewest + countOldest));
 
-    if(!points) {
+    if (!points) {
         let override = teamMappings.find(mapping => {
                 return mapping.to === teamName
             }
         );
         if (override) {
-            return calcAverageRankingPoints(override.from, fromDate, toDate);
+            return internalCalcAverageRankingPoints(override.from, fromDate, toDate);
         }
     }
     return points;
+}
+
+function calcAverageRankingPoints(teamName, fromDate, toDate) {
+    calculateMissingRankings(fromDate, toDate);
+    return internalCalcAverageRankingPoints(teamName, fromDate, toDate);
 }
 
 rankings[0].team.forEach(team => {
