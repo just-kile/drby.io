@@ -6,6 +6,7 @@
 const bouts = require('../../../../examples/bouts.json');
 const rankings = require('../../../../examples/rankings.json');
 const gamePoints = require('./gamePoints.js');
+const moment = require('moment');
 let teamMappings = require('./teamMappings.json');
 
 const bcrd = "Bear City Roller Derby";
@@ -73,7 +74,7 @@ function calcAverageRankingPoints(teamName, fromDate, toDate) {
         }
 
         let boutDate = new Date(bout.date.$date);
-        let opponentRanking = findOpponent(opponentName, boutDate);
+
 
         let decaySplit = new Date(2016, 9, 1);
         var decayFactor = 1;
@@ -85,11 +86,24 @@ function calcAverageRankingPoints(teamName, fromDate, toDate) {
             countNewest++;
         }
 
-        let strengh = opponentRanking ? opponentRanking.weight : 0.5;
+        var retries = 5;
+        var rankingDate = boutDate;
+        var opponentRanking = findOpponent(opponentName, boutDate);
+
+        // this is actually a approximation to get a better educated guess of the strengh factor
+        // of a team though it is NOT yet ranked.
+        // Seems to increase ranking point accuracy by about 0.2 percent.
+        while (!opponentRanking && retries > 0) {
+            rankingDate = moment(rankingDate).add(1, 'months').toDate();
+            opponentRanking = findOpponent(opponentName, rankingDate);
+            retries--;
+        }
 
         if (!opponentRanking) {
             // console.log("MISSING TEAM " + opponentName + " for team " + teamName + " on " + boutDate);
         }
+
+        let strengh = opponentRanking ? opponentRanking.weight : 0.5
 
         var points = gamePoints.calculateGamePoints({
             teamPoints, opponentPoints, opponentStrength: strengh, decayFactor

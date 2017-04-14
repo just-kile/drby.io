@@ -9,7 +9,7 @@
  * The method needs to output the average ranking points of this team.
  */
 
-let rankings = require('../../../examples/rankings.json');
+let rankings = require('../../../../examples/rankings.json');
 let moment = require('moment');
 
 
@@ -20,13 +20,18 @@ let counts = [20, 50, 100, 150, 200, 250];
 
 let dates = [
     moment('2017-03-31'),
-    moment('2017-02-28'),
-    moment('2017-01-31'),
+    // moment('2017-02-28'),
+    // moment('2017-01-31'),
+    moment('2016-06-30'),
 ];
 
 let algorithms = [
     {
         name: "First one",
+        method: require('./calcTest.js')
+    },
+    {
+        name: "Second one",
         method: require('./calcTest2.js')
     }
 ];
