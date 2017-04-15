@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../api/data.service';
-import { DrbyLeagueDataModel } from '../api/datamodels.model';
+import { RankingElementDataModel } from '../../../../../schema/datamodel';
 
 
 @Component({
@@ -11,11 +11,11 @@ import { DrbyLeagueDataModel } from '../api/datamodels.model';
 })
 export class DrbyRankingComponent implements OnInit {
 
-  private leagues: DrbyLeagueDataModel[] = [];
+  private ranking: RankingElementDataModel[] = [];
 
   constructor(private dataService: DataService) {
-    dataService.leagues.subscribe((leagues) => {
-      this.leagues = leagues;
+    dataService.ranking.subscribe((ranking) => {
+      this.ranking = ranking;
     });
    }
 

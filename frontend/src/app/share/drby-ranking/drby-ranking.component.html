@@ -1,3 +1,7 @@
-<div *ngFor="let league of leagues">
-{{league.rank}}. {{league.name}}
+<div class="row" *ngFor="let rankingElement of ranking; let rank = index">
+<div class="col-md-2">{{rank + 1}}</div>
+<div class="col-md-5">{{rankingElement.leagueName}}</div>
+<div class="col-md-1">{{rankingElement.wins}}</div>
+<div class="col-md-1">{{rankingElement.losses}}</div>
+<div class="col-md-3">{{rankingElement.points}}</div>
 </div>

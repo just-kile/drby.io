@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DrbyLeagueDataModel } from './datamodels.model';
+import { RankingElementDataModel } from '../../../../../schema/datamodel';
+
 
 @Injectable()
 export class DataService {
 
-  public leagues = new BehaviorSubject<DrbyLeagueDataModel[]>([]);
+	public ranking = new BehaviorSubject<RankingElementDataModel[]>([]);
 
-  constructor() {
-    this.leagues.next([
-      new DrbyLeagueDataModel(1, 0, 'BRCD', 10, 0, 7.23, 1000),
-      new DrbyLeagueDataModel(2, 0, 'Gotham', 9, 1, 6.34, 900),
-      new DrbyLeagueDataModel(3, 0, 'London', 8, 2, 5.67, 800)
-    ]);
-  }
+	constructor() {
+		this.ranking.next([
+			new RankingElementDataModel('BCRD', 10, 0, 1000.34, []),
+			new RankingElementDataModel('Gotham', 9, 1, 900.56, []),
+			new RankingElementDataModel('London', 8, 2, 800.12, [])
+		]);
+	}
 
 }
