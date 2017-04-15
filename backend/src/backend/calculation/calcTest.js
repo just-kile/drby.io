@@ -95,13 +95,6 @@ function calcAverageRankingPoints(teamName, fromDate, toDate) {
             teamPoints, opponentPoints, opponentStrength: strengh, decayFactor
         })
 
-        // console.log("vs " + opponentName + ": " + points);
-        // console.log("    > bout date: " + boutDate);
-        // console.log("    > ranking date: " + new Date(opponentRanking.ranking.date.$date));
-        // console.log("    > opponent weight: " + opponentRanking.weight);
-        // console.log("    > team points: " + teamPoints);
-        // console.log("    > opponent points: " + opponentPoints);
-        // console.log("    > points " + points)
         totalPoints += points;
     });
 
