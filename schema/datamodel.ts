@@ -1,5 +1,5 @@
 /**
- * This represents the current state of the API-response for the called endpoint /positions
+ * This represents the current state of the API-responses
  */
 export class RankingElementDataModel {
   constructor(
@@ -7,13 +7,13 @@ export class RankingElementDataModel {
     public wins: number,
     public losses: number,
     public points: number,
-    public games: RankingGameDataModel[]
+    public games: RankingGameDataModel[] // last games played
   ) { }
 }
 
 export class RankingGameDataModel {
   constructor(
     public opponent: string,
-    public points: number
+    public points: number // point difference of this 
   ) { }
 }
