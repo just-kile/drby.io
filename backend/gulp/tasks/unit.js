@@ -8,18 +8,15 @@ var jasmine = require('gulp-jasmine');
 // add frontend when existing...
 gulp.task('unit', ['unit:backend']);
 
-gulp.task('unit:backend', function () {
+gulp.task('unit:backend', ['mongodb:start'], function () {
     return gulp.src('test/backend/**/*.js')
         .pipe(jasmine({verbose: true}))
-        .pipe(gulp.dest('coverage/backend'))
-});
-
-gulp.task('unit:frontend', function (done) {
-    var Server = require('karma').Server;
-    new Server({
-        configFile: __dirname + '/../../karma.conf.js',
-        singleRun: true
-    }, done).start();
+        .on('end', function () {
+            gulp.emit('mongodb-stop');
+        })
+        .on('error', function () {
+            gulp.emit('mongodb-stop');
+        });
 });
 
 gulp.task('unit:watch', function () {

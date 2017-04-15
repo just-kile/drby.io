@@ -2,6 +2,7 @@
  * Created by thomas on 15.04.17.
  */
 
+
 module.exports = {
 
     calculateRanking : function() {

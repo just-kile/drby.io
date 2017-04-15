@@ -1,18 +1,16 @@
 var mongoose = require('mongoose');
 
 var gamesSchema = new mongoose.Schema({
-
-    date: date,
-    ftsGameId: Number,
-    home: {
-        league: String,
-        score: Number
-    },
-    away: {
-        league: String,
-        score: Number
-    }
-
+    ftsGameId: Number
+    // date: date,
+    // home: {
+    //     league: String,
+    //     score: Number
+    // },
+    // away: {
+    //     league: String,
+    //
+    // }
 });
 
 var Games =  mongoose.model('games', gamesSchema);
