@@ -1,18 +1,17 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var gamesSchema = new mongoose.Schema({
-    ftsGameId: Number
-    // date: date,
-    // home: {
-    //     league: String,
-    //     score: Number
-    // },
-    // away: {
-    //     league: String,
-    //
-    // }
-});
+var Game = mongoose.model('Game', new Schema({
+    ftsGameId: Number,
+    date: Date,
+    home: {
+        league: String,
+        score: Number
+    },
+    away: {
+        league: String,
+        score: Number
+    }
+}));
 
-var Games =  mongoose.model('games', gamesSchema);
-
-module.exports = Games;
+module.exports = Game;
