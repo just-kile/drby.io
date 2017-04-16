@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var rankingsSchema = new mongoose.Schema({
-
-    date: date,
+var Ranking = mongoose.model('Ranking', new Schema({
+    date: Date,
     leagues: [
         {
             league: String,
@@ -12,9 +12,6 @@ var rankingsSchema = new mongoose.Schema({
             weight: Number
         }
     ]
+}));
 
-});
-
-var Rankings = mongoose.model('rankings', rankingsSchema);
-
-module.exports = Rankings;
+module.exports = Ranking;
