@@ -25,9 +25,20 @@ function toGameResult(league, game) {
 
 function findGames(league, from, to) {
     return new Promise(function (resolve) {
-        Game.find({"$or": [{"home.league": league}, {"away.league": league}]}, function (error, games) {
-            resolve(games.map(toGameResult(league)));
-        });
+        Game.find(
+            {
+                "$and": [
+                    {"date": {"$gte": from.toDate()}},
+                    {
+                        "$or": [
+                            {"home.league": league},
+                            {"away.league": league}
+                        ]
+                    }
+                ]
+            }, function (error, games) {
+                resolve(games.map(toGameResult(league)));
+            });
     });
 }
 

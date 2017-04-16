@@ -97,6 +97,13 @@ describe('Game Util', function() {
             })
         });
 
+        it("should return no game if it was played too late",  function(done) {
+            gameUtil.findGames(homeLeague, moment('2016-10-01'), endDate).then(games => {
+                expect(games).toEqual([]);
+                done();
+            })
+        });
+
 
     });
 
