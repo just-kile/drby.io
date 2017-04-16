@@ -2,37 +2,14 @@
  * Created by thomas on 15.04.17.
  */
 
-const gameUtil = require('../../../src/backend/calculation/gameUtil');
 const moment = require('moment');
 
-var mongoose = require('mongoose');
-var Mockgoose = require('mockgoose').Mockgoose;
-var mockgoose = new Mockgoose(mongoose);
-
-var Cat = mongoose.model('Cat', {
-    name: String
-});
-
-var Game = require('../../../src/backend/model/game');
-
-
+const gameUtil = require('../../../src/backend/calculation/gameUtil');
+const Game = require('../../../src/backend/model/game');
+const mongoDbSetup = require('../mongoDbSetup');
 
 describe('Game Util', function() {
-
-    beforeAll(function(done) {
-        mockgoose.prepareStorage().then(function() {
-            mongoose.connect('mongodb://127.0.0.1:27017/TestingDB', function(err) {
-                done(err);
-            });
-        });
-    });
-
-    beforeEach(function(done) {
-        mockgoose.helper.reset().then(function() {
-            done();
-        });
-    });
-
+    mongoDbSetup();
 
     describe("Single Game", function() {
 
@@ -115,97 +92,3 @@ describe('Game Util', function() {
     });
 
 });
-
-
-//
-// describe("Game Util", function () {
-//
-//     beforeEach(function(done) {
-//         mockgoose.prepareStorage().then(function() {
-//             mongoose.connect('mongodb://example.com/TestingDB', function(err) {
-//                 done(err);
-//             });
-//         });
-//     });
-//
-//     describe("Find Games", function () {
-//
-//         let fromDate = moment('2016-02-01');
-//         let toDate = moment('2017-01-31');
-//
-//         it('should return an empty array for an unkown team', function () {
-//             let unknownLeague = "Ghostery Roller Derby";
-//
-//             gameUtil.findGames(unknownLeague, fromDate, toDate).then(games => {
-//                 expect(games).toEqual([]);
-//                 done();
-//             });
-//         });
-//
-//         it('should return an empty array for an unkown team 22', function () {
-//             let unknownLeague = "Ghostery Roller Derby";
-//
-//             gameUtil.findGames(unknownLeague, fromDate, toDate).then(games => {
-//                 expect(games).toEqual([]);
-//                 done();
-//             });
-//         });
-//
-//         describe("Single game as home team", function () {
-//
-//             let league = "Bear City Roller Derby";
-//             let opponentLeague = "Brewcity Bruisers";
-//             let score = 201;
-//             let opponentScore = 197;
-//
-//             let game = new Game({
-//                 date: moment('2016-06-09').toDate(),
-//                 home: {
-//                     league: league,
-//                     score: score
-//                 },
-//                 away: {
-//                     league: opponentLeague,
-//                     score: opponentScore
-//                 }
-//             });
-//
-//             beforeEach(function (done) {
-//                 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-//
-//                 console.log('before... ' + mockgoose.helper.isMocked());
-//
-//                 Game.create(game, function (error, theGame) {
-//                     console.log('did create game ' + theGame)
-//                     done(error);
-//                 })
-//             });
-//
-//             it('should return single game as home team', function (done) {
-//
-//                 let games = Game.find();
-//                 games.exec(function(error, games) {
-//                     console.log(error);
-//                     console.log(games);
-//                 })
-//                 // const expectedGames = [{
-//                 //     league,
-//                 //     opponentLeague,
-//                 //     score,
-//                 //     opponentScore
-//                 // }];
-//                 //
-//                 // gameUtil.findGames(league, fromDate, toDate).then(games => {
-//                 //     console.log("Foooo");
-//                 //     expect(games).toEqual(expectedGames);
-//                 //     done();
-//                 // });
-//
-//             });
-//
-//
-//         });
-//
-//     });
-//
-// });
