@@ -84,6 +84,19 @@ describe('Game Util', function() {
             })
         });
 
+        it("should return the game for given away league", function(done) {
+            gameUtil.findGames(awayLeague, startDate, endDate).then(games => {
+                expect(games).toEqual([{
+                    league: awayLeague,
+                    opponentLeague: homeLeague,
+                    score: awayScore,
+                    opponentScore: homeScore,
+                    date: date
+                }]);
+                done();
+            })
+        });
+
 
     });
 
