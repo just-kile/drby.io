@@ -29,6 +29,7 @@ function findGames(league, from, to) {
             {
                 "$and": [
                     {"date": {"$gte": from.toDate()}},
+                    {"date": {"$lte": to.toDate()}},
                     {
                         "$or": [
                             {"home.league": league},

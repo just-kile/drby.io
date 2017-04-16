@@ -97,8 +97,15 @@ describe('Game Util', function() {
             })
         });
 
-        it("should return no game if it was played too late",  function(done) {
+        it("should return no game if it was played too early",  function(done) {
             gameUtil.findGames(homeLeague, moment('2016-10-01'), endDate).then(games => {
+                expect(games).toEqual([]);
+                done();
+            })
+        });
+
+        it("should return no game if it was played too late",  function(done) {
+            gameUtil.findGames(homeLeague, startDate,  moment('2016-09-01')).then(games => {
                 expect(games).toEqual([]);
                 done();
             })
