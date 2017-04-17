@@ -126,7 +126,12 @@ describe('Ranking Util', function () {
         let weight1_1 = 2.53;
         let weight1_2 = 2.56;
         let weight1_3 = 2.41;
-        
+
+        let league2 = "	Paris Rollergirls";
+        let weight2_1 = 2.08;
+        let weight2_2 = 2.16;
+        let weight2_3 = 2.54;
+
         let date1 = moment('2017-01-31');
         let date2 = moment('2017-02-28');
         let date3 = moment('2017-03-31');
@@ -137,8 +142,12 @@ describe('Ranking Util', function () {
                 date: date1,
                 leagues: [
                     {
-                        league1,
+                        league: league1,
                         weight: weight1_1
+                    },
+                    {
+                        league: league2,
+                        weight: weight2_1
                     }
                 ]
             },
@@ -146,8 +155,12 @@ describe('Ranking Util', function () {
                 date: date2,
                 leagues: [
                     {
-                        league1,
+                        league: league1,
                         weight: weight1_2
+                    },
+                    {
+                        league: league2,
+                        weight: weight2_2
                     }
                 ]
             },
@@ -155,8 +168,12 @@ describe('Ranking Util', function () {
                 date: date3,
                 leagues: [
                     {
-                        league1,
+                        league: league1,
                         weight: weight1_3
+                    },
+                    {
+                        league: league2,
+                        weight: weight2_3
                     }
                 ]
             }
@@ -174,14 +191,37 @@ describe('Ranking Util', function () {
                 expect(weight).toEqual(weight1_2);
                 done();
             })
-        })
+        });
+
+        it("Should return the weight of the relevant ranking for the league2 in february", function (done) {
+            rankingUtil.findWeight(league2, moment('2017-03-14')).then(weight => {
+                expect(weight).toEqual(weight2_2);
+                done();
+            })
+        });
 
         it("Should return the weight of the relevant ranking for the league1 in march", function (done) {
             rankingUtil.findWeight(league1, moment('2017-04-02')).then(weight => {
                 expect(weight).toEqual(weight1_3);
                 done();
             })
-        })
+        });
+
+        it("Should return weight 1 for unknown leagues", function (done) {
+            let unkownLeage = "Non-Existent Roller Derby";
+            rankingUtil.findWeight(unkownLeage, moment('2017-04-02')).then(weight => {
+                expect(weight).toEqual(1.0);
+                done();
+            })
+        });
+
+        it("Should return weight 1 for unsupported dates", function (done) {
+            let unkownLeage = "Non-Existent Roller Derby";
+            rankingUtil.findWeight(league1, moment('2016-03-12')).then(weight => {
+                expect(weight).toEqual(1.0);
+                done();
+            })
+        });
 
     });
 

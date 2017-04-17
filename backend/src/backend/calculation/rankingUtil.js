@@ -23,7 +23,16 @@ function findRanking(date) {
 function findWeight(league, date) {
     return new Promise(resolve => {
         findRanking(date).then(ranking => {
-            resolve(ranking.leagues[0].weight);
+            if (ranking) {
+                let rankedLeague = ranking.leagues.find(l => l.league === league);
+                if (rankedLeague) {
+                    resolve(rankedLeague.weight);
+                } else {
+                    resolve(1.0);
+                }
+            } else {
+                resolve(1.0);
+            }
         });
 
     })
