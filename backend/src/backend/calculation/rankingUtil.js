@@ -11,7 +11,8 @@ function findRanking(date) {
                     resolve();
                 } else {
                     resolve({
-                        date: moment(ranking.date)
+                        date: moment(ranking.date),
+                        leagues: ranking.leagues
                     });
                 }
             });
