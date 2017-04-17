@@ -42,6 +42,25 @@ describe('Ranking Util', function () {
         })
     })
 
+    // The next test is executed multipe times to ensure ordering is performed properly. When running,
+    // the test just once, we may be lucky to hit the right result just out of luck (e. g. mongo db
+    // used some ordering by surprise although not required to)
+    let times = 10;
+    for (var i = 0; i < times; ++i) {
+        it(`should return the february ranking for the some day in march (run ${i})`, function (done) {
+            rankingUtil.findRanking(moment('2017-03-09')).then(ranking => {
+                expect(ranking.date.valueOf()).toEqual(date2.valueOf());
+                done();
+            })
+        })
+    }
+
+    it("should return the march ranking even if requested date is in far future", function (done) {
+        rankingUtil.findRanking(moment('2018-07-12')).then(ranking => {
+            expect(ranking.date.valueOf()).toEqual(date3.valueOf());
+            done();
+        })
+    })
 
 });
 
