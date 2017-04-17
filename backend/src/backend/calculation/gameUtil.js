@@ -1,4 +1,5 @@
 const Game = require('../model/game');
+const moment = require('moment');
 
 function toGameResult(league, game) {
     return game => {
@@ -9,7 +10,7 @@ function toGameResult(league, game) {
                 opponentLeague: game.away.league,
                 score: game.home.score,
                 opponentScore: game.away.score,
-                date: game.date
+                date: moment(game.date)
             }
         } else {
             return {
@@ -17,7 +18,7 @@ function toGameResult(league, game) {
                 opponentLeague: game.home.league,
                 score: game.away.score,
                 opponentScore: game.home.score,
-                date: game.date
+                date: moment(game.date)
             }
         }
     }

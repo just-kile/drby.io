@@ -55,7 +55,7 @@ describe('Game Util', function () {
                     opponentLeague: awayLeague,
                     score: homeScore,
                     opponentScore: awayScore,
-                    date: date
+                    date: moment(date)
                 }]);
                 done();
             })
@@ -68,7 +68,7 @@ describe('Game Util', function () {
                     opponentLeague: homeLeague,
                     score: awayScore,
                     opponentScore: homeScore,
-                    date: date
+                    date: moment(date)
                 }]);
                 done();
             })
@@ -155,20 +155,20 @@ describe('Game Util', function () {
                         opponentLeague: opponentLeague1,
                         score: score1,
                         opponentScore: opponentScore1,
-                        date: date
+                        date: moment(date)
                     },
                     {
                         league: league,
                         opponentLeague: opponentLeague2,
                         score: score2,
                         opponentScore: opponentScore2,
-                        date: date
+                        date: moment(date)
                     }, {
                         league: league,
                         opponentLeague: opponentLeague3,
                         score: score3,
                         opponentScore: opponentScore3,
-                        date: date
+                        date: moment(date)
                     }
                 ]);
                 done();
