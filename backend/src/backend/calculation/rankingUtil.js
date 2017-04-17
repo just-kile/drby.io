@@ -20,6 +20,16 @@ function findRanking(date) {
     })
 }
 
+function findWeight(league, date) {
+    return new Promise(resolve => {
+        findRanking(date).then(ranking => {
+            resolve(ranking.leagues[0].weight);
+        });
+
+    })
+};
+
 module.exports = {
-    findRanking
+    findRanking,
+    findWeight
 };
