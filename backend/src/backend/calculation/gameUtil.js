@@ -1,4 +1,4 @@
-const Game = require('../../../src/backend/model/game');
+const Game = require('../model/game');
 
 function toGameResult(league, game) {
     return game => {

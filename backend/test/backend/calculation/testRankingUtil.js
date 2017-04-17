@@ -28,13 +28,19 @@ describe('Ranking Util', function () {
         });
     });
 
-    it("should return ran", function (done) {
-        // gameUtil.findGames(unknownLeague, startDate, endDate).then(games => {
-        //     expect(games).toEqual([]);
-        //     done();
-        // })
-        done();
+    it("should return undefined for date before first ranking.", function (done) {
+        rankingUtil.findRanking(moment('2017-01-30')).then(ranking => {
+            expect(ranking).toEqual(undefined);
+            done();
+        })
     });
+
+    it("should return the january ranking for the last february", function (done) {
+        rankingUtil.findRanking(date2).then(ranking => {
+            expect(ranking.date.valueOf()).toEqual(date1.valueOf());
+            done();
+        })
+    })
 
 
 });
